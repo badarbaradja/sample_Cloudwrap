@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudwrap - Make Your Own Pancake Taco</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="theme-checkbox">
+            <input type="checkbox" id="theme-checkbox" />
+            <div class="slider round"></div>
+        </label>
+    </div>
+
+    <main class="container" id="landing-page">
+        <div class="title-box">
+            ⭐ LETS MAKE YOUR OWN CLOUDWRAP ⭐
+        </div>
+        <img src="img/cloudwrap-logo-main.png" alt="Cloudwrap Fruit Pancake Tacos" class="main-image"> 
+        <button id="start-btn" class="start-button">START</button>
+    </main>
+
+    <section class="container customization-section" id="topping-main-section">
+        <div class="header-boxes">
+            <div class="title-box smaller">⭐ MAKE YOUR OWN CLOUDWRAP ⭐</div>
+            <div class="choose-box">CHOOSE YOUR TOPPINGS!</div>
+        </div>
+        
+        <div class="customization-content">
+            <div class="cloudwrap-display">
+                <img src="img/base-cloudwrap.png" alt="Cloudwrap Base" id="cloudwrap-base-img" class="cloudwrap-base">
+                <img src="" alt="Selected Topping" id="topping-overlay-img" class="topping-overlay">
+            </div>
+            
+            <div class="topping-options">
+                <button class="topping-item" data-topping="strawberries" data-price="5000">
+                    <img src="img/topping-strawberries.png" alt="Strawberries Icon">
+                    <span>STRAWBERRIES</span>
+                </button>
+                <button class="topping-item" data-topping="bananas" data-price="4000">
+                    <img src="img/topping-bananas.png" alt="Bananas Icon">
+                    <span>BANANAS</span>
+                </button>
+                <button class="topping-item" data-topping="grapes" data-price="4500">
+                    <img src="img/topping-grapes.png" alt="Grapes Icon">
+                    <span>GRAPES</span>
+                </button>
+                <button class="topping-item" data-topping="mangos" data-price="6000">
+                    <img src="img/topping-mangos.png" alt="Mangos Icon">
+                    <span>MANGOS</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="order-details" class="hidden">
+            <div class="quantity-controls">
+                <span>Jumlah:</span>
+                <button id="minus-btn">-</button>
+                <span id="quantity-display">1</span>
+                <button id="plus-btn">+</button>
+            </div>
+            <div class="price-display">
+                Total: <span id="total-price-display">Rp 0</span>
+            </div>
+        </div>
+        
+        <button id="next-to-additional-topping-btn" class="next-button hidden">NEXT</button>
+
+    </section>
+
+    <section class="container customization-section" id="additional-topping-section">
+    <div class="header-boxes">
+        <div class="title-box smaller">⭐ CHOOSE ADDITIONAL TOPPING ⭐</div>
+        <div class="choose-box">ADDITIONAL TOPPINGS? (Optional)</div>
+    </div>
+    
+    <div class="customization-content">
+        <div class="cloudwrap-display" id="additional-cloudwrap-display">
+            <img src="img/base-cloudwrap.png" alt="Cloudwrap Base" class="cloudwrap-base">
+            <img src="" alt="Main Topping" id="main-topping-in-additional" class="topping-overlay active">
+            <img src="" alt="Additional Topping" id="additional-topping-overlay" class="topping-overlay"> 
+        </div>
+        
+        <div class="topping-options">
+            <button class="topping-item" data-topping="chocolates" data-price="3000">
+                <img src="img/icon-chocolates.png" alt="Chocolates Icon">
+                <span>CHOCOLATES</span>
+            </button>
+            <button class="topping-item" data-topping="oreos" data-price="2500">
+                <img src="img/icon-oreos.png" alt="Oreos Icon">
+                <span>OREOS</span>
+            </button>
+            <button class="topping-item" data-topping="marshmallows" data-price="2000">
+                <img src="img/icon-marshmallows.png" alt="Marshmallows Icon">
+                <span>MARSHMALLOWS</span>
+            </button>
+            <button class="topping-item" data-topping="cheeses" data-price="3500">
+                <img src="img/icon-cheeses.png" alt="Cheeses Icon">
+                <span>CHEESES</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="price-display" id="final-price-display">
+        Total: <span id="final-total-price-display">Rp 0</span>
+    </div>
+
+    <div class="button-group">
+        <button id="skip-btn" class="skip-button">SKIP</button>
+        <button id="back-btn" class="back-button">BACK</button>
+        <button id="next-to-payment-btn" class="next-button">NEXT</button>
+    </div>
+</section>
+
+    <section class="container customization-section" id="payment-section">
+        <div class="title-box smaller">⭐ ALMOST THERE! ⭐</div>
+        <div class="payment-layout">
+            <div class="form-column">
+                <h3>Order Summary</h3>
+                <p id="order-summary-text">Your custom Cloudwrap is ready!</p>
+                <h2 id="final-price-text">Total: Rp 0</h2>
+                <hr>
+                <h3>Your Information</h3>
+                <form id="customer-form">
+                    <label for="customer-name">Name:</label>
+                    <input type="text" id="customer-name" name="customer-name" required>
+                    <label for="customer-whatsapp">WhatsApp Number:</label>
+                    <input type="tel" id="customer-whatsapp" name="customer-whatsapp" required>
+                </form>
+            </div>
+            <div class="qr-column">
+    <h3>Scan to Pay</h3>
+    <img src="img/qr-code.png" alt="QR Code for Payment" class="qr-image">
+
+    <p class="payment-announcement">
+        Setelah membayar, mohon kirimkan bukti pembayaran ke WhatsApp:
+        <br>
+        <strong>0812-3456-7890</strong>
+    </p>
+    </div>
+        </div>
+        <button id="back-from-payment-btn" class="back-button">BACK</button>
+        <button id="finish-order-btn" class="next-button">FINISH ORDER</button>
+    </section>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
