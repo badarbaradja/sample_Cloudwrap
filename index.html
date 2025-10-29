@@ -11,7 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body> 
+    <div id="loading-screen">
+        <img src="img/logo-loading_page.png" alt="CloudWrap Logo" class="loading-logo"> 
+        <div class="spinner"></div> 
+    </div>
 
     <div class="theme-switch-wrapper">
         <label class="theme-switch" for="theme-checkbox">
@@ -20,106 +24,186 @@
         </label>
     </div>
 
+    <div id="global-pancake-container" class="hidden">
+        <img src="img/loading-transition.png" alt="Cloudwrap Base" id="global-pancake-image">
+        <div id="global-visuals-container"></div>
+    </div>
+
     <main class="container" id="landing-page">
-        <div class="title-box">
-            ⭐ LETS MAKE YOUR OWN CLOUDWRAP ⭐
-        </div>
-        <img src="img/cloudwrap-logo-main.png" alt="Cloudwrap Fruit Pancake Tacos" class="main-image"> 
+        <div class="landing-text-container">
+            <h1 class="landing-title-top animated-text">Let's make your own</h1>
+            <img src="img/cloudwrap-logo-main.png" alt="Cloudwrap Fruit Pancake Tacos" class="main-image animated-image"> 
+            <h1 class="landing-title-bottom animated-text">CloudWrap!</h1>
+        </div>   
         <button id="start-btn" class="start-button">START</button>
-    </main>
-
-    <section class="container customization-section" id="topping-main-section">
-        <div class="header-boxes">
-            <div class="title-box smaller">⭐ MAKE YOUR OWN CLOUDWRAP ⭐</div>
-            <div class="choose-box">CHOOSE YOUR TOPPINGS!</div>
-        </div>
+    </main> 
+    
+    <!-- SECTION 1: FRUIT SELECTION -->
+    <section class="container customization-section" id="fruit-section">
+        <h1 class="section-title-text">Fill With Fruits</h1>
         
-        <div class="customization-content">
-            <div class="cloudwrap-display">
-                <img src="img/base-cloudwrap.png" alt="Cloudwrap Base" id="cloudwrap-base-img" class="cloudwrap-base">
-                <img src="" alt="Selected Topping" id="topping-overlay-img" class="topping-overlay">
+        <div class="choice-layout-grid three-items">
+            <div class="choice-item" data-choice="bananas">
+                <img src="img/topping-bananas.png" alt="Bananas Icon"> 
+                <span>BANANAS</span>
             </div>
-            
-            <div class="topping-options">
-                <button class="topping-item" data-topping="strawberries" data-price="5000">
-                    <img src="img/topping-strawberries.png" alt="Strawberries Icon">
-                    <span>STRAWBERRIES</span>
-                </button>
-                <button class="topping-item" data-topping="bananas" data-price="4000">
-                    <img src="img/topping-bananas.png" alt="Bananas Icon">
-                    <span>BANANAS</span>
-                </button>
-                <button class="topping-item" data-topping="grapes" data-price="4500">
-                    <img src="img/topping-grapes.png" alt="Grapes Icon">
-                    <span>GRAPES</span>
-                </button>
-                <button class="topping-item" data-topping="mangos" data-price="6000">
-                    <img src="img/topping-mangos.png" alt="Mangos Icon">
-                    <span>MANGOS</span>
-                </button>
+            <div class="choice-item" data-choice="strawberries">
+                <img src="img/topping-strawberries.png" alt="Strawberries Icon"> 
+                <span>STRAWBERRIES</span>
+            </div>
+            <div class="choice-item" data-choice="mangos">
+                <img src="img/topping-mangos.png" alt="Mangos Icon"> 
+                <span>MANGOS</span>
             </div>
         </div>
 
-        <div id="order-details" class="hidden">
-            <div class="quantity-controls">
-                <span>Jumlah:</span>
-                <button id="minus-btn">-</button>
-                <span id="quantity-display">1</span>
-                <button id="plus-btn">+</button>
-            </div>
-            <div class="price-display">
-                Total: <span id="total-price-display">Rp 0</span>
-            </div>
+        <div class="button-group">
+            <button id="next-to-topping-btn" class="next-button hidden">NEXT</button>
         </div>
-        
-        <button id="next-to-additional-topping-btn" class="next-button hidden">NEXT</button>
-
     </section>
 
-    <section class="container customization-section" id="additional-topping-section">
-    <div class="header-boxes">
-        <div class="title-box smaller">⭐ CHOOSE ADDITIONAL TOPPING ⭐</div>
-        <div class="choose-box">ADDITIONAL TOPPINGS? (Optional)</div>
-    </div>
-    
-    <div class="customization-content">
-        <div class="cloudwrap-display" id="additional-cloudwrap-display">
-            <img src="img/base-cloudwrap.png" alt="Cloudwrap Base" class="cloudwrap-base">
-            <img src="" alt="Main Topping" id="main-topping-in-additional" class="topping-overlay active">
-            <img src="" alt="Additional Topping" id="additional-topping-overlay" class="topping-overlay"> 
+    <!-- SECTION 2: TOPPING SELECTION -->
+    <section class="container customization-section" id="topping-section">
+        <h1 class="section-title-text">Choose Your Toppings!</h1>
+        
+        <div class="choice-layout-grid two-items">
+            <div class="choice-item" data-choice="oreos">
+                <img src="img/icon-oreos.png" alt="Oreos Icon"> 
+                <span>OREOS</span>
+            </div>
+            <div class="choice-item" data-choice="yupis">
+                <img src="img/icon-yupis.png" alt="Yupis Icon"> 
+                <span>YUPIS</span>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="back-button" data-target="fruit-section">BACK</button>
+            <button class="skip-button" data-target="sauce-section">SKIP</button>
+            <button id="next-to-sauce-btn" class="next-button hidden">NEXT</button>
+        </div>
+    </section>
+
+    <!-- SECTION 3: SAUCE SELECTION -->
+    <section class="container customization-section" id="sauce-section">
+        <h1 class="section-title-text">Make it Perfect With Sauces</h1>
+        
+        <div class="choice-layout-grid two-items">
+            <div class="choice-item" data-choice="chocolate">
+                <img src="img/icon-chocolates.png" alt="Chocolate Icon"> 
+                <span>CHOCOLATE</span>
+            </div>
+            <div class="choice-item" data-choice="honey">
+                <img src="img/icon-honey.png" alt="Honey Icon"> 
+                <span>HONEY</span>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="back-button" data-target="topping-section">BACK</button>
+            <button class="skip-button" data-target="extra-section">SKIP</button>
+            <button id="next-to-extra-btn" class="next-button hidden">NEXT</button>
+        </div>
+    </section>
+
+    <!-- SECTION 4: EXTRA ITEMS (✅ UPDATED dengan Sauce Items) -->
+    <section class="container customization-section" id="extra-section">
+        <h1 class="section-title-text">Any additional items, maybe?</h1>
+        <p class="extra-info">Tambahan +Rp 2.000 per item</p>
+        
+        <div class="extra-items-list">
+            <!-- FRUITS EXTRA -->
+            <div class="extra-item-row" data-extra="strawberries" data-price="2000">
+                <span class="extra-name">Extra Strawberries</span>
+                <div class="quantity-controls extra-controls">
+                    <button class="extra-minus" disabled>-</button>
+                    <span class="extra-quantity">0</span>
+                    <button class="extra-plus">+</button>
+                </div>
+            </div>
+            <div class="extra-item-row" data-extra="bananas" data-price="2000">
+                <span class="extra-name">Extra Bananas</span>
+                <div class="quantity-controls extra-controls">
+                    <button class="extra-minus" disabled>-</button>
+                    <span class="extra-quantity">0</span>
+                    <button class="extra-plus">+</button>
+                </div>
+            </div>
+            <div class="extra-item-row" data-extra="mangos" data-price="2000">
+                <span class="extra-name">Extra Mangos</span>
+                <div class="quantity-controls extra-controls">
+                    <button class="extra-minus" disabled>-</button>
+                    <span class="extra-quantity">0</span>
+                    <button class="extra-plus">+</button>
+                </div>
+            </div>
+
+            <!-- TOPPINGS EXTRA -->
+            <div class="extra-item-row" data-extra="oreos" data-price="2000">
+                <span class="extra-name">Extra Oreos</span>
+                <div class="quantity-controls extra-controls">
+                    <button class="extra-minus" disabled>-</button>
+                    <span class="extra-quantity">0</span>
+                    <button class="extra-plus">+</button>
+                </div>
+            </div>
+            <div class="extra-item-row" data-extra="yupis" data-price="2000">
+                <span class="extra-name">Extra Yupis</span>
+                <div class="quantity-controls extra-controls">
+                    <button class="extra-minus" disabled>-</button>
+                    <span class="extra-quantity">0</span>
+                    <button class="extra-plus">+</button>
+                </div>
+            </div>
+
+            <!-- SAUCES EXTRA (✅ TAMBAHAN BARU) -->
+            <div class="extra-item-row" data-extra="chocolate" data-price="2000">
+                <span class="extra-name">Extra Chocolate</span>
+                <div class="quantity-controls extra-controls">
+                    <button class="extra-minus" disabled>-</button>
+                    <span class="extra-quantity">0</span>
+                    <button class="extra-plus">+</button>
+                </div>
+            </div>
+            <div class="extra-item-row" data-extra="honey" data-price="2000">
+                <span class="extra-name">Extra Honey</span>
+                <div class="quantity-controls extra-controls">
+                    <button class="extra-minus" disabled>-</button>
+                    <span class="extra-quantity">0</span>
+                    <button class="extra-plus">+</button>
+                </div>
+            </div>
         </div>
         
-        <div class="topping-options">
-            <button class="topping-item" data-topping="chocolates" data-price="3000">
-                <img src="img/icon-chocolates.png" alt="Chocolates Icon">
-                <span>CHOCOLATES</span>
-            </button>
-            <button class="topping-item" data-topping="oreos" data-price="2500">
-                <img src="img/icon-oreos.png" alt="Oreos Icon">
-                <span>OREOS</span>
-            </button>
-            <button class="topping-item" data-topping="marshmallows" data-price="2000">
-                <img src="img/icon-marshmallows.png" alt="Marshmallows Icon">
-                <span>MARSHMALLOWS</span>
-            </button>
-            <button class="topping-item" data-topping="cheeses" data-price="3500">
-                <img src="img/icon-cheeses.png" alt="Cheeses Icon">
-                <span>CHEESES</span>
-            </button>
+        <div class="price-display" id="extra-price-display">
+            Total Tambahan: <span>Rp 0</span>
         </div>
-    </div>
 
-    <div class="price-display" id="final-price-display">
-        Total: <span id="final-total-price-display">Rp 0</span>
-    </div>
+        <div class="button-group">
+            <button class="back-button" data-target="sauce-section">BACK</button>
+            <button class="skip-button" data-target="finish-summary-section">SKIP</button>
+            <button id="next-to-finish-btn" class="next-button">NEXT</button>
+        </div>
+    </section>
 
-    <div class="button-group">
-        <button id="skip-btn" class="skip-button">SKIP</button>
-        <button id="back-btn" class="back-button">BACK</button>
-        <button id="next-to-payment-btn" class="next-button">NEXT</button>
-    </div>
-</section>
+    <!-- SECTION 5: FINISH SUMMARY -->
+    <section class="container customization-section" id="finish-summary-section">
+        <h1 class="section-title-text">Fantastic!</h1>
+        <h2 class="section-subtitle-text">The CloudWrap is Yours</h2>
+        
+        <!-- ✅ PANCAKE MUNCUL DI TENGAH-TENGAH -->
+        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 300px;">
+            <!-- Pancake akan muncul di sini via global container -->
+        </div>
+        
+        <!-- ✅ BUTTON DI BAWAH PANCAKE -->
+        <div class="button-group">
+            <button class="back-button" data-target="extra-section">BACK</button>
+            <button id="next-to-payment-from-finish-btn" class="next-button">FINISH & PAY</button>
+        </div>
+    </section>
 
+    <!-- SECTION 6: PAYMENT -->
     <section class="container customization-section" id="payment-section">
         <div class="title-box smaller">⭐ ALMOST THERE! ⭐</div>
         <div class="payment-layout">
@@ -132,25 +216,29 @@
                 <form id="customer-form">
                     <label for="customer-name">Name:</label>
                     <input type="text" id="customer-name" name="customer-name" required>
+                    <label for="customer-address">Address:</label>
+                    <input type="text" id="customer-address" name="customer-address" placeholder="e.g., Jl. Contoh No. 123, Kota" required>
                     <label for="customer-whatsapp">WhatsApp Number:</label>
                     <input type="tel" id="customer-whatsapp" name="customer-whatsapp" required>
                 </form>
             </div>
             <div class="qr-column">
-    <h3>Scan to Pay</h3>
-    <img src="img/qr-code.png" alt="QR Code for Payment" class="qr-image">
-
-    <p class="payment-announcement">
-        Setelah membayar, mohon kirimkan bukti pembayaran ke WhatsApp:
-        <br>
-        <strong>0812-3456-7890</strong>
-    </p>
-    </div>
+                <h3>Scan to Pay</h3>
+                <img src="img/qr-code.png" alt="QR Code for Payment" class="qr-image">
+                <p class="payment-announcement">
+                    Atau boleh mengirim melalu rekening berikut:<br>
+                    <strong>Gopay : 087886561627</strong><br>
+                    <strong>HANYA CONTOH, nanti tinggal masukin punya kalian</strong>
+                </p>
+                <label for="payment-proof" class="upload-label">Upload Proof of Payment:</label>
+                <input type="file" id="payment-proof" name="payment-proof" accept="image/*" required>
+                <span id="file-chosen">No file chosen</span>
+            </div>
         </div>
-        <button id="back-from-payment-btn" class="back-button">BACK</button>
+        <button id="back-from-payment" class="back-button">BACK</button> 
         <button id="finish-order-btn" class="next-button">FINISH ORDER</button>
     </section>
 
-    <script src="js/script.js"></script>
+    <script src="js/script.js"></script> 
 </body>
 </html>

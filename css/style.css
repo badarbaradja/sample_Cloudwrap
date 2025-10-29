@@ -1,41 +1,25 @@
 /* ============================================= */
 /* 1. PENGATURAN DASAR & VARIABEL TEMA           */
 /* ============================================= */
-/* Gaya untuk pengumuman kirim bukti bayar */
 
-.payment-announcement {
-    background-color: #e0f7fa; /* Warna latar belakang biru muda */
-    color: #004d40; /* Warna teks hijau tua agar mudah dibaca */
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-size: 0.9em;
-    line-height: 1.5;
-    text-align: center;
-    border: 1px solid #b2ebf2; /* Garis tepi yang lembut */
-}
-
-.payment-announcement strong {
-    font-size: 1.1em; /* Membuat nomor WA sedikit lebih besar */
-    display: block; /* Membuat nomor WA berada di baris baru */
-    margin-top: 5px;
-}
+/* Variabel Warna Tema */
 :root {
-    /* Light Mode (Creamy) */
-    --bg-primary: #fdfaf6;
+    /* Light Mode (Creamy Pink) */
+    --bg-primary: #f3d3db;
     --bg-secondary: #ffffff;
     --text-primary: #444444;
     --border-color: #e0e0e0;
 }
 
 [data-theme="dark"] {
-    /* Dark Mode (Grayish Black) */
-    --bg-primary: #2c2c2e;
+    /* Dark Mode (Grayish) */
+    --bg-primary: #606066;
     --bg-secondary: #3a3a3c;
-    --text-primary: #9a9aa2;
+    --text-primary: #e5e5e9;
     --border-color: #444446;
 }
 
+/* Reset Dasar & Gaya Body */
 * {
     margin: 0;
     padding: 0;
@@ -52,11 +36,14 @@ body {
     align-items: center;
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+    position: relative;
 }
 
 /* ============================================= */
 /* 2. LAYOUT UTAMA & KOMPONEN UMUM               */
 /* ============================================= */
+
 .container {
     text-align: center;
     padding: 20px;
@@ -69,7 +56,7 @@ body {
     display: none !important;
 }
 
-/* Kotak Judul */
+/* Kotak Judul & Info (Contoh: Payment page) */
 .title-box {
     background-color: #d9abff;
     color: #333;
@@ -86,194 +73,133 @@ body {
     margin-bottom: 20px;
 }
 
-.choose-box {
-    background-color: #ffc2d4;
-    color: #333;
-    padding: 15px 30px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 1.2em;
-    margin-bottom: 40px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Pengumuman Pembayaran */
+.payment-announcement {
+    background-color: #e0f7fa;
+    color: #004d40;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 0.9em;
+    line-height: 1.5;
+    text-align: center;
+    border: 1px solid #b2ebf2;
+}
+
+.payment-announcement strong {
+    font-size: 1.1em;
+    display: block;
+    margin-top: 5px;
 }
 
 /* ============================================= */
 /* 3. HALAMAN LANDING (#landing-page)            */
 /* ============================================= */
+
 #landing-page {
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in 0.3s;
 }
 
-.main-image {
-    max-width: 300px;
+#landing-page.visible {
+    opacity: 1;
+}
+
+.landing-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.landing-text-container .main-image {
+    max-width: 250px;
     width: 100%;
-    margin-bottom: 40px;
+    margin: -10px 0;
 }
 
 .start-button {
-    background-color: #007bff;
-    color: white;
+    background-color: #fbe763;
+    color: #a17400;
     border: none;
     padding: 20px 60px;
     border-radius: 50px;
     font-size: 1.5em;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(251, 231, 99, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .start-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.4);
+    box-shadow: 0 6px 12px rgba(251, 231, 99, 0.5);
+    background-color: #fadf30;
 }
 
-/* ============================================= */
-/* 4. HALAMAN KUSTOMISASI (Semua Section)        */
-/* ============================================= */
-.customization-section {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    padding: 40px 20px;
-}
-
-.customization-section.active {
-    display: block;
-    opacity: 1;
-}
-
-.header-boxes {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.header-boxes .title-box, .header-boxes .choose-box {
-    margin-bottom: 0;
-    flex: 1;
-    min-width: 280px;
-}
-
-.customization-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
-    margin-bottom: 40px;
-}
-
-/* Tampilan Cloudwrap & Topping */
-.cloudwrap-display {
-    position: relative;
-    width: 350px;
-    height: 350px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.cloudwrap-base {
-    position: absolute;
-    width: 350px;
-    height: 350px;
-    object-fit: contain;
-    z-index: 1;
-}
-
-.topping-overlay {
-    position: absolute;
-    object-fit: contain;
-    transition: opacity 0.3s ease-in-out;
-    opacity: 0;
-    width: 220px;
-    height: auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-}
-
-.topping-overlay.active {
-    opacity: 1;
-}
-
-/* Opsi Topping */
-.topping-options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-.topping-item {
-    background-color: #ffebb9;
-    border: 2px solid #e0c99a;
-    border-radius: 10px;
-    padding: 15px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.landing-title-top, .landing-title-bottom {
+    font-size: 3.5em;
+    color: #d6336c;
     font-weight: 700;
-    font-size: 0.9em;
-    color: #555;
-    transition: all 0.2s ease;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.7), -2px -2px 0px rgba(0, 0, 0, 0.1);
+    line-height: 1.2;
+    margin: 10px 0;
+    transform: rotate(-8deg);
 }
 
-.topping-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    margin-bottom: 10px;
+.landing-title-bottom {
+    transform: rotate(5deg);
+    margin-top: -20px;
 }
 
-.topping-item:hover {
-    background-color: #ffdd88;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+#landing-page.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
 }
 
-.topping-item.selected {
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px #007bff, 0 4px 8px rgba(0, 123, 255, 0.2);
-    background-color: #e0f0ff;
+/* ============================================= */
+/* 4. SECTION KONTEN (Semua Page Kustomisasi)    */
+/* ============================================= */
+
+/* Teks Judul Section (Fill With Fruits, dll) */
+.section-title-text {
+    font-size: 3.0em;
+    color: #d6336c;
+    font-weight: 700;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.7), -2px -2px 0px rgba(0, 0, 0, 0.1);
+    line-height: 1.2;
+    margin-bottom: 40px;
+    transform: rotate(-5deg);
+    display: inline-block;
 }
 
-/* Kontrol Jumlah */
-#order-details {
-    margin-bottom: 20px;
-}
-/* PERBARUI BLOK INI di style.css */
+/* Detail Pesanan (Kontrol Kuantitas Lama, DIPAKAI di Extra) */
 .quantity-controls {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    background-color: var(--bg-secondary); /* DIUBAH */
+    background-color: var(--bg-secondary);
     padding: 8px;
     border-radius: 50px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border: 1px solid var(--border-color); /* DITAMBAHKAN */
+    border: 1px solid var(--border-color);
 }
 
-/* PERBARUI BLOK INI di style.css */
 .quantity-controls span {
     font-size: 1.2em;
     font-weight: 700;
-    color: var(--text-primary); /* DIUBAH */
+    color: var(--text-primary);
     min-width: 50px;
     text-align: center;
 }
+
 .quantity-controls button {
     width: 45px;
     height: 45px;
@@ -289,93 +215,31 @@ body {
     align-items: center;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
+
 .quantity-controls button:hover {
     background-color: #0056b3;
 }
+
 .quantity-controls button:active {
     transform: scale(0.95);
 }
 
-/* PERBARUI BLOK INI di style.css */
 .price-display {
-    background-color: var(--bg-secondary); /* DIUBAH */
+    background-color: var(--bg-secondary);
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 1.3em;
     font-weight: 700;
-    color: var(--text-primary); /* DIUBAH */
+    color: var(--text-primary);
     display: inline-block;
     margin-top: 20px;
-    border: 1px solid var(--border-color); /* DITAMBAHKAN */
-}
-
-
-/* ============================================= */
-/* 5. HALAMAN TOPPING TAMBAHAN                   */
-/* ============================================= */
-#additional-overlays-container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    pointer-events: none;
-}
-
-.additional-topping-img {
-    position: absolute;
-    width: 120px;
-    height: auto;
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* Grup Tombol Navigasi */
-.button-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.next-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    border-radius: 50px;
-    font-size: 1.2em;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
-    transition: all 0.2s ease;
-}
-.next-button:hover {
-    background-color: #218838;
-    transform: translateY(-3px);
-}
-
-.back-button, .skip-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    border-radius: 50px;
-    font-size: 1.2em;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    transition: all 0.2s ease;
-}
-.back-button:hover, .skip-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-3px);
+    border: 1px solid var(--border-color);
 }
 
 /* ============================================= */
-/* 6. HALAMAN PEMBAYARAN & FORM                  */
+/* 5. HALAMAN PEMBAYARAN & FORM (#payment-section) */
 /* ============================================= */
+
 .payment-layout {
     display: flex;
     flex-wrap: wrap;
@@ -395,34 +259,55 @@ body {
     min-width: 300px;
     max-width: 450px;
 }
+
 .form-column h3, .qr-column h3 {
     margin-bottom: 15px;
 }
+
 .form-column hr {
     margin: 20px 0;
     border: 0;
     border-top: 1px solid var(--border-color);
 }
-#customer-form input[type="text"], #customer-form input[type="tel"] {
+
+#customer-form label {
+     display: block;
+     margin-bottom: 5px;
+     font-weight: 600;
+}
+
+/* ✅ PERBAIKAN: Styling untuk semua input (termasuk address) */
+#customer-form input[type="text"], 
+#customer-form input[type="tel"] {
     width: 100%;
     padding: 12px;
-    margin-top: 5px;
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid var(--border-color);
     font-size: 1em;
     background-color: var(--bg-primary);
     color: var(--text-primary);
+    transition: border-color 0.3s ease;
 }
+
+#customer-form input[type="text"]:focus, 
+#customer-form input[type="tel"]:focus {
+    outline: none;
+    border-color: #d6336c;
+    box-shadow: 0 0 5px rgba(214, 51, 108, 0.3);
+}
+
 .qr-image {
     width: 250px;
     height: 250px;
     display: block;
     margin: 15px auto;
 }
+
 input[type="file"] {
     display: none;
 }
+
 .upload-label {
     display: block;
     background-color: #007bff;
@@ -433,18 +318,72 @@ input[type="file"] {
     cursor: pointer;
     margin-top: 15px;
     margin-bottom: 10px;
+    transition: background-color 0.2s ease;
 }
+
 .upload-label:hover {
     background-color: #0056b3;
 }
+
 #file-chosen {
     font-style: italic;
     color: #888;
+    display: block;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+/* ============================================= */
+/* 6. TOMBOL NAVIGASI UMUM                       */
+/* ============================================= */
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.next-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    transition: all 0.2s ease;
+}
+
+.next-button:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+}
+
+.back-button, .skip-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+}
+
+.back-button:hover, .skip-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
 }
 
 /* ============================================= */
 /* 7. THEME SWITCH                               */
 /* ============================================= */
+
 .theme-switch-wrapper {
     display: flex;
     align-items: center;
@@ -453,95 +392,447 @@ input[type="file"] {
     right: 20px;
     z-index: 100;
 }
+
 .theme-switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
 }
+
 .theme-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
+
 .slider {
     position: absolute;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background-color: #ccc;
     transition: .4s;
 }
+
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 26px; width: 26px;
+    left: 4px; bottom: 4px;
     background-color: white;
     transition: .4s;
 }
-input:checked + .slider {
-    background-color: #007bff;
+
+input:checked + .slider { background-color: #007bff; }
+input:checked + .slider:before { transform: translateX(26px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+
+/* ============================================= */
+/* 8. ANIMASI & EFEK TAMBAHAN                    */
+/* ============================================= */
+
+/* --- Animasi Jatuh Landing Page --- */
+@keyframes dropInSmooth {
+    0% { opacity: 0; transform: translateY(-50px) rotate(-10deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(-8deg); }
 }
-input:checked + .slider:before {
-    transform: translateX(26px);
+@keyframes dropInSmoothBottom {
+     0% { opacity: 0; transform: translateY(-50px) rotate(10deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(5deg); }
 }
-.slider.round {
-    border-radius: 34px;
+@keyframes fadeInScaleUp {
+     0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
 }
-.slider.round:before {
+
+.animated-text {
+    animation: dropInSmooth 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    opacity: 0;
+}
+.landing-title-bottom.animated-text {
+    animation-name: dropInSmoothBottom;
+    animation-delay: 0.15s;
+}
+.animated-image {
+    animation: fadeInScaleUp 0.7s ease-out 0.1s forwards;
+    opacity: 0;
+}
+
+/* --- Loading Screen --- */
+#loading-screen {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: var(--bg-primary);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-logo {
+    width: 150px; height: auto;
+    margin-bottom: 30px;
+}
+
+.spinner {
+    width: 40px; height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007bff;
     border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#loading-screen.fade-out {
+    opacity: 0;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* ============================================= */
-/* 8. MEDIA QUERIES (RESPONSIVITAS)              */
+/* 9. MEDIA QUERIES (RESPONSIVITAS)              */
 /* ============================================= */
 @media (max-width: 768px) {
-    .header-boxes {
-        flex-direction: column;
+    /* Penyesuaian Judul Section */
+    .section-title-text {
+        font-size: 2.2em;
+        margin-bottom: 30px;
     }
-    .customization-content {
-        flex-direction: column;
-        align-items: center;
-    }
-    .topping-options {
-        grid-template-columns: 1fr;
-    }
+    
+    /* Penyesuaian Tombol */
+    .start-button { padding: 15px 40px; font-size: 1.3em; }
+    .next-button, .back-button, .skip-button { padding: 12px 30px; font-size: 1.1em; }
+    .button-group { flex-direction: column; gap: 15px; }
+    
+    /* Penyesuaian Payment */
+    .payment-layout { flex-direction: column; align-items: center; }
+    .form-column, .qr-column { width: 95%; max-width: none; }
+    .title-box { padding: 12px 20px; font-size: 1em; }
+    .price-display { font-size: 1.1em; }
+    
+    /* Penyesuaian Landing Page */
+    .landing-title-top, .landing-title-bottom { font-size: 2.5em; }
+    .landing-text-container .main-image { max-width: 200px; }
 }
-/* TAMBAHKAN DUA BLOK INI di style.css */
+
+/* ============================================= */
+/* 10. GAYA UNTUK ALUR BARU (BUAH, TOPPING, SAUS) */
+/* ============================================= */
+
+/* Judul Sub-teks (Misal: "The CloudWrap is Yours") */
+.section-subtitle-text {
+    font-size: 2.0em;
+    color: #e65986;
+    font-weight: 700;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.7), -1px -1px 0px rgba(0, 0, 0, 0.1);
+    line-height: 1.2;
+    margin-top: -30px;
+    margin-bottom: 20px;
+    transform: rotate(3deg);
+    display: inline-block;
+}
+
+/* Layout Pilihan (Untuk Buah, Topping, Saus) */
+.choice-layout-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 20px 0;
+    flex-wrap: wrap; 
+}
+
+/* Mengatur jumlah item per baris */
+.choice-layout-grid.three-items {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.choice-layout-grid.two-items {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Tombol Pilihan (Item Buah, Topping, Saus) */
+.choice-item {
+    background-color: #fcf4a3;
+    border: 3px solid #fadf30;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1em;
+    color: #c0392b;
+    transition: all 0.25s ease;
+    width: 150px;
+    min-height: 160px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.choice-item img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.choice-item:hover {
+    background-color: #fadf30;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Style saat item dipilih */
+.choice-item.selected {
+    border-color: #d6336c;
+    background-color: #fde7f0;
+    box-shadow: 0 0 0 4px #d6336c, 0 6px 12px rgba(214, 51, 108, 0.3);
+    transform: scale(1.05);
+}
+
+/* ============================================= */
+/* 11. GAYA UNTUK HALAMAN EKSTRA TOPPING         */
+/* ============================================= */
+
+.extra-info {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #d6336c;
+    margin-top: -20px;
+    margin-bottom: 30px;
+}
+
+.extra-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+    background-color: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.extra-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+.extra-item-row:last-child {
+    border-bottom: none;
+}
+
+.extra-name {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Gunakan style .quantity-controls yang sudah ada */
+.extra-controls { /* Tidak perlu style tambahan */ }
+.extra-controls span { font-size: 1.2em; }
+.extra-controls button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+}
+.extra-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#extra-price-display {
+    /* Style .price-display lama sudah cocok */
+}
+#extra-price-display span {
+    color: #d6336c;
+    font-weight: 700;
+}
+
+/* ============================================= */
+/* 12. PENYESUAIAN MEDIA QUERY (BARU)            */
+/* ============================================= */
 @media (max-width: 768px) {
-    .header-boxes {
-        flex-direction: column;
+    .section-subtitle-text {
+        font-size: 1.5em;
+        margin-top: -20px;
     }
-    .customization-content {
-        flex-direction: column;
-        align-items: center;
+    
+    .choice-item {
+        width: 130px;
+        min-height: 140px;
+        padding: 15px;
+        font-size: 0.9em;
     }
-    .topping-options {
-        grid-template-columns: 1fr;
+    .choice-item img {
+        width: 70px;
+        height: 70px;
+    }
+    .choice-layout-grid {
+        gap: 15px;
+    }
+    
+    .extra-name {
+        font-size: 1.0em;
+    }
+    .extra-controls button {
+        width: 35px;
+        height: 35px;
+    }
+    .extra-controls span {
+        font-size: 1.1em;
+        min-width: 40px;
     }
 }
 
-/* 1. Container untuk menampung semua overlay topping tambahan */
-#additional-overlays-container {
+/* ============================================= */
+/* 13. GAYA PANCAKE GLOBAL & ANIMASI KONTEN      */
+/* ============================================= */
+
+/* --- Pancake Global --- */
+#global-pancake-container {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    left: 50%; 
+    bottom: -350px;
+    transform: translateX(-50%);
+    z-index: 50;
+    pointer-events: none;
+    transition: bottom 2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+#global-pancake-container.animate-drop {
+    bottom: 0;
+}
+
+#global-pancake-container.hidden {
+    display: none;
+}
+
+#global-pancake-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#global-visuals-container {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 3; /* Pastikan di atas topping utama */
-    pointer-events: none; /* Agar tidak menghalangi interaksi mouse */
+    z-index: 101;
 }
 
-/* 2. Gaya untuk setiap gambar topping tambahan yang dibuat oleh JS */
-.additional-topping-img {
+.visual-item {
     position: absolute;
-    width: 120px; /* Ukuran topping tambahan, bisa disesuaikan */
+    width: 120px;
     height: auto;
-    opacity: 0; /* Awalnya transparan */
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Animasi muncul */
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- Penyesuaian Section & Animasi Konten --- */
+.customization-section {
+    position: relative;
+    z-index: 10;
+    
+    display: none;
+    
+    flex-direction: column;
+    justify-content: space-between; 
+    
+    padding: 40px 20px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding-bottom: 450px;
+    min-height: auto; 
+}
+
+/* ✅ PERBAIKAN: Layout khusus untuk finish-summary-section */
+#finish-summary-section {
+    padding-bottom: 500px;
+    min-height: auto;
+    justify-content: flex-start;
+}
+
+/* ✅ Pastikan judul berada di atas */
+#finish-summary-section .section-title-text,
+#finish-summary-section .section-subtitle-text {
+    margin-bottom: 30px;
+}
+
+/* ✅ Spacer cukup normal saja */
+#finish-summary-section > div[style*="flex-grow"] {
+    min-height: 300px !important;
+}
+
+/* ✅ Pastikan button-group berada di bawah */
+#finish-summary-section .button-group {
+    margin-top: 30px;
+    position: relative;
+    z-index: 20;
+}
+
+/* ✅ PERBAIKAN: Sembunyikan pancake HANYA di extra-section */
+#extra-section {
+    padding-bottom: 50px;
+}
+
+/* Sembunyikan semua "anak" dari section */
+.customization-section > * { 
+    opacity: 0;
+    transform: translateY(-40px);
+    transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Style 'reveal' untuk memicu animasi "jatuh" */
+.customization-section.reveal > * { 
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Atur delay individual */
+.customization-section.reveal > .section-title-text { transition-delay: 0.1s; }
+.customization-section.reveal > .section-subtitle-text,
+.customization-section.reveal > .extra-info { transition-delay: 0.2s; }
+.customization-section.reveal > .choice-layout-grid,
+.customization-section.reveal > .extra-items-list { transition-delay: 0.4s; }
+.customization-section.reveal > .price-display { transition-delay: 0.5s; }
+.customization-section.reveal > .button-group { transition-delay: 0.7s; }
+
+/* --- Media Query untuk Pancake Global --- */
+@media (max-width: 768px) {
+    #global-pancake-container {
+        width: 300px;
+        height: 300px;
+    }
+    #global-pancake-container.animate-drop {
+        bottom: 0;
+    }
+    
+    .customization-section {
+        padding-bottom: 380px;
+    }
+    
+    #finish-summary-section {
+        padding-bottom: 400px;
+    }
+    
+    #finish-summary-section > div[style*="flex-grow"] {
+        min-height: 300px !important;
+    }
 }
