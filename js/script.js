@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const CONTENT_FADE_DURATION = 500;
     
     const VISUAL_ASSETS_MAP = {
-        'strawberries': 'topping-strawberries.png',
+        'strawberries': 'strawberries.png',
         'bananas': 'topping-bananas.png',
-        'mangos': 'topping-mangos.png',
-        'oreos': 'icon-oreos.png',
-        'yupis': 'icon-yupis.png',
+        'mangos': 'mangga.png',
+        'oreos': 'oreo.png',
+        'yupis': 'yuppi-card.png',
         'chocolate': 'icon-chocolates.png',
         'honey': 'icon-honey.png'
     };
