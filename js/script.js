@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const CONTENT_FADE_DURATION = 500;
     
     const VISUAL_ASSETS_MAP = {
-        'strawberries': 'strawberries.png',
+        'strawberries': 'Strawberries.png',
         'bananas': 'pisang.png',
         'mangos': 'mangga.png',
         'oreos': 'oreo.png',
@@ -587,4 +587,5 @@ document.addEventListener('DOMContentLoaded', function() {
          globalPancakeContainer.classList.add('animate-drop');
          showContent('fruit-section'); 
     }
+
 });
