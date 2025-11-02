@@ -276,7 +276,6 @@ body {
      font-weight: 600;
 }
 
-/* ✅ PERBAIKAN: Styling untuk semua input (termasuk address) */
 #customer-form input[type="text"], 
 #customer-form input[type="tel"] {
     width: 100%;
@@ -697,98 +696,133 @@ input:checked + .slider:before { transform: translateX(26px); }
 }
 
 /* ============================================= */
-/* 13. GAYA PANCAKE GLOBAL & ANIMASI KONTEN      */
+/* 13. GAYA PANCAKE GLOBAL - FIXED 100% ANTI-SCROLL */
 /* ============================================= */
 
-/* --- Pancake Global --- */
+/* 🔥 PANCAKE CONTAINER - IKUT SCROLL (TIDAK FIXED!) */
 #global-pancake-container {
-    position: fixed;
+    position: absolute;
     width: 350px;
     height: 350px;
-    left: 50%; 
+    left: 50%;
+    margin-left: -175px;
     bottom: -350px;
-    transform: translateX(-50%);
-    z-index: 50;
+    z-index: 5;
     pointer-events: none;
+    opacity: 1;
     transition: bottom 2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
+/* Animasi naik dari bawah */
 #global-pancake-container.animate-drop {
     bottom: 0;
 }
 
+/* Sembunyikan pancake */
 #global-pancake-container.hidden {
     display: none;
 }
 
+/* Image pancake */
 #global-pancake-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
+/* Container untuk topping visual */
 #global-visuals-container {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 101;
+    z-index: 1;
 }
 
+/* Item visual (buah, topping, sauce) */
 .visual-item {
     position: absolute;
     width: 120px;
     height: auto;
     opacity: 0;
-    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: opacity 0.5s ease, 
+                top 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* --- Penyesuaian Section & Animasi Konten --- */
+/* ============================================= */
+/* 14. PENYESUAIAN SECTION & ANIMASI KONTEN      */
+/* ============================================= */
+
+/* Section kustomisasi */
 .customization-section {
     position: relative;
     z-index: 10;
-    
     display: none;
-    
     flex-direction: column;
-    justify-content: space-between; 
-    
+    justify-content: flex-start;
     padding: 40px 20px;
     width: 100%;
     max-width: 1000px;
     margin: 40px auto;
     padding-bottom: 450px;
-    min-height: auto; 
+    min-height: 100vh;
 }
 
-/* ✅ PERBAIKAN: Layout khusus untuk finish-summary-section */
+/* Layout khusus untuk finish-summary-section */
 #finish-summary-section {
-    padding-bottom: 500px;
-    min-height: auto;
+    padding-bottom: 50px;
+    min-height: 100vh;
     justify-content: flex-start;
-}
-
-/* ✅ Pastikan judul berada di atas */
-#finish-summary-section .section-title-text,
-#finish-summary-section .section-subtitle-text {
-    margin-bottom: 30px;
-}
-
-/* ✅ Spacer cukup normal saja */
-#finish-summary-section > div[style*="flex-grow"] {
-    min-height: 300px !important;
-}
-
-/* ✅ Pastikan button-group berada di bawah */
-#finish-summary-section .button-group {
-    margin-top: 30px;
     position: relative;
-    z-index: 20;
 }
 
-/* ✅ PERBAIKAN: Sembunyikan pancake HANYA di extra-section */
-#extra-section {
+
+/* 🔥🔥 PERBAIKAN: HAPUS SEMUA ATURAN CSS LAMA UNTUK POSISI PANCAKE DI FINISH */
+/* Aturan '#finish-summary-section #global-pancake-container' dihapus */
+
+
+/* 🔥🔥 PERBAIKAN: Atur Jarak Baru untuk layout finish */
+#finish-summary-section .section-title-text {
+    margin-bottom: 10px; /* Jarak judul ke sub-judul */
+}
+#finish-summary-section .section-subtitle-text {
+    margin-bottom: 20px; /* Jarak sub-judul ke pancake */
+}
+
+/* Ini adalah "rumah" baru untuk pancake */
+#finish-pancake-goes-here {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0; /* JS akan memindahkan pancake ke sini */
+    pointer-events: none;
+}
+
+/* Override style pancake saat berada di "rumah" baru */
+#finish-pancake-goes-here > #global-pancake-container {
+    /* JS akan mengatur 'position: relative', kita pastikan margin/posisi reset */
+    margin-left: 0 !important;
+    left: auto !important;
+    bottom: auto !important;
+    top: auto !important;
+    /* Kita bisa kecilkan sedikit jika terlalu besar */
+    width: 300px; 
+    height: 300px;
+}
+
+#finish-summary-section .button-group {
+    margin-top: 20px; /* Jarak dari pancake ke tombol */
+    position: relative;
+    z-index: 20; /* Pastikan tombol di atas (jika ada tumpang tindih) */
+}
+
+
+/* Sembunyikan pancake di extra-section & payment */
+#extra-section,
+#payment-section {
     padding-bottom: 50px;
 }
 
@@ -809,6 +843,10 @@ input:checked + .slider:before { transform: translateX(26px); }
 .customization-section.reveal > .section-title-text { transition-delay: 0.1s; }
 .customization-section.reveal > .section-subtitle-text,
 .customization-section.reveal > .extra-info { transition-delay: 0.2s; }
+
+/* 🔥 PERBAIKAN: Tambahkan delay untuk "rumah" pancake */
+.customization-section.reveal > #finish-pancake-goes-here { transition-delay: 0.3s; }
+
 .customization-section.reveal > .choice-layout-grid,
 .customization-section.reveal > .extra-items-list { transition-delay: 0.4s; }
 .customization-section.reveal > .price-display { transition-delay: 0.5s; }
@@ -817,22 +855,23 @@ input:checked + .slider:before { transform: translateX(26px); }
 /* --- Media Query untuk Pancake Global --- */
 @media (max-width: 768px) {
     #global-pancake-container {
-        width: 300px;
-        height: 300px;
+        width: 280px;
+        height: 280px;
+        margin-left: -140px;
+        bottom: -280px;
     }
-    #global-pancake-container.animate-drop {
-        bottom: 0;
+    
+    /* 🔥 PERBAIKAN: Atur ukuran pancake di "rumah" baru pada mobile */
+    #finish-pancake-goes-here > #global-pancake-container {
+        width: 250px;
+        height: 250px;
     }
     
     .customization-section {
-        padding-bottom: 380px;
+        padding-bottom: 350px;
     }
     
     #finish-summary-section {
-        padding-bottom: 400px;
-    }
-    
-    #finish-summary-section > div[style*="flex-grow"] {
-        min-height: 300px !important;
+        padding-bottom: 50px;
     }
 }

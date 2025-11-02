@@ -14,13 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const CONTENT_FADE_DURATION = 500;
     
     const VISUAL_ASSETS_MAP = {
-        'strawberries': 'Strawberries.png',
-        'bananas': 'topping-bananas.png',
+        'strawberries': 'strawberries.png',
+        'bananas': 'pisang.png',
         'mangos': 'mangga.png',
         'oreos': 'oreo.png',
-        'yupis': 'yuppi-card.png',
-        'chocolate': 'icon-chocolates.png',
-        'honey': 'icon-honey.png'
+        'yupis': 'yupi.png',
+        'chocolate': 'coklat.png',
+        'honey': 'honey.png'
     };
 
     // =============================================
@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     let currentSectionId = null;
     let isTransitioning = false;
+    
+    // ✅ TAMBAHAN: Simpan posisi setiap item agar konsisten
+    let itemPositions = {};
 
     // =============================================
     // 2. DEKLARASI ELEMEN
@@ -43,6 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const globalPancakeContainer = document.getElementById('global-pancake-container');
     const globalVisualsContainer = document.getElementById('global-visuals-container');
+    
+    // 🔥 PERBAIKAN: Simpan parent asli pancake (body) dan target barunya
+    const pancakeOriginalParent = globalPancakeContainer.parentNode; 
+    const finishPancakeTarget = document.getElementById('finish-pancake-goes-here');
 
     const startButton = document.getElementById('start-btn');
     
@@ -83,11 +90,42 @@ document.addEventListener('DOMContentLoaded', function() {
             sectionToShow.style.display = 'flex';
             sectionToShow.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
+            // 🔥 PERBAIKAN LOGIKA POSISI PANCAKE
             if (sectionId === 'extra-section' || sectionId === 'payment-section') {
                 globalPancakeContainer.classList.add('hidden');
-            } else {
+            
+            } else if (sectionId === 'finish-summary-section') {
+                // 1. Pindahkan pancake ke "rumah" barunya di dalam section
+                if (finishPancakeTarget) {
+                    finishPancakeTarget.appendChild(globalPancakeContainer);
+                }
                 globalPancakeContainer.classList.remove('hidden');
+                
+                // 2. Hapus class/style posisi absolut agar mengikuti alur flexbox
+                globalPancakeContainer.classList.remove('finish-position');
+                globalPancakeContainer.classList.remove('animate-drop-finish');
+                globalPancakeContainer.style.position = 'relative'; // Menjadi elemen normal
+                globalPancakeContainer.style.bottom = 'auto';
+                globalPancakeContainer.style.left = 'auto';
+                globalPancakeContainer.style.marginLeft = 'auto';
+                
+            } else {
+                // 1. Kembalikan pancake ke parent aslinya (body)
+                if (globalPancakeContainer.parentNode !== pancakeOriginalParent) {
+                    pancakeOriginalParent.appendChild(globalPancakeContainer);
+                    // 2. Kembalikan style absolut untuk "mengikuti" di bawah
+                    globalPancakeContainer.style.position = 'absolute';
+                    globalPancakeContainer.style.left = '50%';
+                    // Sesuaikan margin-left berdasarkan ukuran di CSS (default: -175px)
+                    const pancakeWidth = globalPancakeContainer.offsetWidth;
+                    globalPancakeContainer.style.marginLeft = `-${pancakeWidth / 2}px`;
+                }
+
+                globalPancakeContainer.classList.remove('hidden');
+                globalPancakeContainer.classList.remove('finish-position');
+                globalPancakeContainer.classList.remove('animate-drop-finish');
             }
+            // --- AKHIR PERBAIKAN ---
             
             setTimeout(() => sectionToShow.classList.add('reveal'), 50);
             currentSectionId = sectionId;
@@ -99,6 +137,21 @@ document.addEventListener('DOMContentLoaded', function() {
             const sectionToHide = document.getElementById(currentSectionId);
             if (sectionToHide) {
                 sectionToHide.classList.remove('reveal');
+                
+                // 🔥 PERBAIKAN: Kembalikan pancake ke body saat meninggalkan finish-section
+                if (currentSectionId === 'finish-summary-section') {
+                    if (globalPancakeContainer.parentNode !== pancakeOriginalParent) {
+                        pancakeOriginalParent.appendChild(globalPancakeContainer);
+                        // Kembalikan style absolut
+                        globalPancakeContainer.style.position = 'absolute';
+                        globalPancakeContainer.style.left = '50%';
+                        const pancakeWidth = globalPancakeContainer.offsetWidth;
+                        globalPancakeContainer.style.marginLeft = `-${pancakeWidth / 2}px`;
+                    }
+                    globalPancakeContainer.classList.remove('finish-position');
+                    globalPancakeContainer.classList.remove('animate-drop-finish');
+                }
+                
                 setTimeout(() => {
                     sectionToHide.style.display = 'none';
                     if (callback) callback();
@@ -121,10 +174,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 isTransitioning = false;
             } 
             else if (targetSectionId === 'finish-summary-section' && currentSectionId === 'extra-section') {
-                runPancakeAnimation(() => {
-                    showContent(targetSectionId);
-                    isTransitioning = false;
-                });
+                // Hapus animasi 'runPancakeAnimation' agar tidak aneh
+                // Cukup tampilkan kontennya
+                showContent(targetSectionId);
+                isTransitioning = false;
             }
             else {
                 runPancakeAnimation(() => {
@@ -137,40 +190,81 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateVisuals() {
         if (!globalVisualsContainer) return;
-        globalVisualsContainer.innerHTML = '';
         
-        let itemsToShow = [orderState.fruit, orderState.topping, orderState.sauce];
+        // Simpan item yang sudah ada (untuk tidak di-animasi ulang)
+        const existingItems = new Set();
+        const existingImages = globalVisualsContainer.querySelectorAll('.visual-item');
+        existingImages.forEach(img => {
+            const itemKey = img.dataset.itemKey;
+            if (itemKey) existingItems.add(itemKey);
+        });
+        
+        // Hitung item yang seharusnya ditampilkan
+        let itemsToShow = [];
+        if (orderState.fruit) itemsToShow.push({ name: orderState.fruit, key: `fruit-${orderState.fruit}` });
+        if (orderState.topping) itemsToShow.push({ name: orderState.topping, key: `topping-${orderState.topping}` });
+        if (orderState.sauce) itemsToShow.push({ name: orderState.sauce, key: `sauce-${orderState.sauce}` });
+        
         for (const itemName in orderState.extras) {
             for (let i = 0; i < orderState.extras[itemName]; i++) {
-                itemsToShow.push(itemName);
+                itemsToShow.push({ name: itemName, key: `extra-${itemName}-${i}` });
             }
         }
         
-        itemsToShow.forEach(itemName => {
-            if (itemName) {
-                const fileName = VISUAL_ASSETS_MAP[itemName]; 
-                
-                if (fileName) {
-                    const newImg = document.createElement('img');
-                    newImg.src = `img/${fileName}`; 
-                    newImg.className = 'visual-item';
-                    
-                    const randomTop = Math.random() * 30 + 20;
-                    const randomLeft = Math.random() * 40 + 30;
-                    const randomRotate = Math.random() * 60 - 30;
-                    newImg.style.top = `${randomTop}%`;
-                    newImg.style.left = `${randomLeft}%`;
-                    newImg.style.transform = `translate(-50%, -50%) rotate(${randomRotate}deg) scale(0.9)`;
-                    
-                    globalVisualsContainer.appendChild(newImg);
-                    setTimeout(() => { 
-                        newImg.style.opacity = '1';
-                        newImg.style.transform = `translate(-50%, -50%) rotate(${randomRotate}deg) scale(1)`;
-                    }, 10);
-                } else {
-                    console.warn(`File visual untuk "${itemName}" tidak ditemukan di VISUAL_ASSETS_MAP.`);
-                }
+        // Hapus item yang tidak ada lagi
+        existingImages.forEach(img => {
+            const itemKey = img.dataset.itemKey;
+            const stillExists = itemsToShow.some(item => item.key === itemKey);
+            if (!stillExists) {
+                img.remove();
+                delete itemPositions[itemKey];
             }
+        });
+        
+        // Tambahkan item baru dengan animasi
+        itemsToShow.forEach(item => {
+            const itemKey = item.key;
+            const itemName = item.name;
+            
+            // Skip jika item sudah ada
+            if (existingItems.has(itemKey)) return;
+            
+            const fileName = VISUAL_ASSETS_MAP[itemName];
+            if (!fileName) {
+                console.warn(`File visual untuk "${itemName}" tidak ditemukan di VISUAL_ASSETS_MAP.`);
+                return;
+            }
+            
+            // Generate atau ambil posisi yang sudah disimpan
+            if (!itemPositions[itemKey]) {
+                itemPositions[itemKey] = {
+                    top: Math.random() * 30 + 20,
+                    left: Math.random() * 40 + 30,
+                    rotate: Math.random() * 60 - 30
+                };
+            }
+            
+            const pos = itemPositions[itemKey];
+            
+            const newImg = document.createElement('img');
+            newImg.src = `img/${fileName}`;
+            newImg.className = 'visual-item';
+            newImg.dataset.itemKey = itemKey;
+            
+            // Posisi awal: di atas layar
+            newImg.style.top = '-100px';
+            newImg.style.left = `${pos.left}%`;
+            newImg.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(0.8)`;
+            newImg.style.opacity = '0';
+            
+            globalVisualsContainer.appendChild(newImg);
+            
+            // Trigger animasi jatuh dari atas (hanya untuk item BARU)
+            setTimeout(() => {
+                newImg.style.opacity = '1';
+                newImg.style.top = `${pos.top}%`;
+                newImg.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(1)`;
+            }, 10);
         });
     }
 
@@ -381,7 +475,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('back-from-payment').addEventListener('click', () => {
        if (isTransitioning) return;
        hideCurrentContent(() => {
+           // Hapus 'hidden' agar pancake muncul lagi saat kembali
            globalPancakeContainer.classList.remove('hidden');
+    
            showContent('finish-summary-section');
        });
     });
@@ -491,6 +587,4 @@ document.addEventListener('DOMContentLoaded', function() {
          globalPancakeContainer.classList.add('animate-drop');
          showContent('fruit-section'); 
     }
-
 });
-

@@ -38,7 +38,6 @@
         <button id="start-btn" class="start-button">START</button>
     </main> 
     
-    <!-- SECTION 1: FRUIT SELECTION -->
     <section class="container customization-section" id="fruit-section">
         <h1 class="section-title-text">Fill With Fruits</h1>
         
@@ -62,7 +61,6 @@
         </div>
     </section>
 
-    <!-- SECTION 2: TOPPING SELECTION -->
     <section class="container customization-section" id="topping-section">
         <h1 class="section-title-text">Choose Your Toppings!</h1>
         
@@ -84,7 +82,6 @@
         </div>
     </section>
 
-    <!-- SECTION 3: SAUCE SELECTION -->
     <section class="container customization-section" id="sauce-section">
         <h1 class="section-title-text">Make it Perfect With Sauces</h1>
         
@@ -106,13 +103,11 @@
         </div>
     </section>
 
-    <!-- SECTION 4: EXTRA ITEMS (✅ UPDATED dengan Sauce Items) -->
     <section class="container customization-section" id="extra-section">
         <h1 class="section-title-text">Any additional items, maybe?</h1>
         <p class="extra-info">Tambahan +Rp 2.000 per item</p>
         
         <div class="extra-items-list">
-            <!-- FRUITS EXTRA -->
             <div class="extra-item-row" data-extra="strawberries" data-price="2000">
                 <span class="extra-name">Extra Strawberries</span>
                 <div class="quantity-controls extra-controls">
@@ -138,7 +133,6 @@
                 </div>
             </div>
 
-            <!-- TOPPINGS EXTRA -->
             <div class="extra-item-row" data-extra="oreos" data-price="2000">
                 <span class="extra-name">Extra Oreos</span>
                 <div class="quantity-controls extra-controls">
@@ -156,7 +150,6 @@
                 </div>
             </div>
 
-            <!-- SAUCES EXTRA (✅ TAMBAHAN BARU) -->
             <div class="extra-item-row" data-extra="chocolate" data-price="2000">
                 <span class="extra-name">Extra Chocolate</span>
                 <div class="quantity-controls extra-controls">
@@ -186,24 +179,19 @@
         </div>
     </section>
 
-    <!-- SECTION 5: FINISH SUMMARY -->
     <section class="container customization-section" id="finish-summary-section">
         <h1 class="section-title-text">Fantastic!</h1>
         <h2 class="section-subtitle-text">The CloudWrap is Yours</h2>
         
-        <!-- ✅ PANCAKE MUNCUL DI TENGAH-TENGAH -->
-        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 300px;">
-            <!-- Pancake akan muncul di sini via global container -->
-        </div>
+        <div id="finish-pancake-goes-here">
+            </div>
         
-        <!-- ✅ BUTTON DI BAWAH PANCAKE -->
         <div class="button-group">
             <button class="back-button" data-target="extra-section">BACK</button>
             <button id="next-to-payment-from-finish-btn" class="next-button">FINISH & PAY</button>
         </div>
     </section>
 
-    <!-- SECTION 6: PAYMENT -->
     <section class="container customization-section" id="payment-section">
         <div class="title-box smaller">⭐ ALMOST THERE! ⭐</div>
         <div class="payment-layout">
