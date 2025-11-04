@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const CONTENT_FADE_DURATION = 500;
     
     const VISUAL_ASSETS_MAP = {
-        'strawberries': 'Strawberries.png',
+        'strawberries': 'strawberries.png',
         'bananas': 'pisang.png',
         'mangos': 'mangga.png',
         'oreos': 'oreo.png',
@@ -188,6 +188,63 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // =============================================
+    // 🔥 FUNGSI BARU: Helper untuk Posisi Visual
+    // =============================================
+    function getVisualProperties(itemName) {
+        let top, left, rotate, scale = 1, zIndex = 5;
+
+        // Helper untuk angka acak dalam rentang (min, max)
+        const rand = (min, max) => Math.random() * (max - min) + min;
+
+        switch (itemName) {
+            // ----- BUAH (Layer Bawah) -----
+            case 'strawberries':
+            case 'bananas':
+            case 'mangos':
+                top = rand(35, 50); // Agak ke bawah
+                left = rand(40, 60); // Di tengah
+                rotate = rand(-15, 15); // Sedikit miring
+                zIndex = 3;
+                break;
+            
+            // ----- TOPPING (Layer Tengah) -----
+            case 'oreos':
+                top = rand(30, 45); // Agak ke atas
+                left = rand(40, 60); // Di tengah
+                rotate = rand(-20, 20); // Sedikit miring
+                zIndex = 5;
+                break;
+            case 'yupis':
+                top = rand(30, 45);
+                left = rand(40, 60);
+                rotate = rand(-20, 20);
+                scale = 0.8; // 🔥 PERBAIKAN: Ukuran Yupi dikecilkan
+                zIndex = 5;
+                break;
+
+            // ----- SAUS (Layer Atas) -----
+            case 'chocolate':
+            case 'honey':
+                top = rand(30, 40); // Di area atas/tengah
+                left = rand(45, 55); // Tepat di tengah
+                rotate = rand(-5, 5);  // Hampir tidak miring
+                zIndex = 10; // 🔥 PERBAIKAN: Selalu di atas
+                break;
+
+            // ----- Default (jika ada item baru) -----
+            default:
+                top = rand(30, 50);
+                left = rand(40, 60);
+                rotate = rand(-15, 15);
+                zIndex = 4;
+                break;
+        }
+
+        return { top, left, rotate, scale, zIndex };
+    }
+
+
     function updateVisuals() {
         if (!globalVisualsContainer) return;
         
@@ -235,12 +292,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Generate atau ambil posisi yang sudah disimpan
+            // 🔥 PERBAIKAN: Generate posisi yang lebih terkontrol
             if (!itemPositions[itemKey]) {
+                // Panggil helper baru untuk mendapatkan properti
+                const props = getVisualProperties(itemName);
                 itemPositions[itemKey] = {
-                    top: Math.random() * 30 + 20,
-                    left: Math.random() * 40 + 30,
-                    rotate: Math.random() * 60 - 30
+                    top: props.top,
+                    left: props.left,
+                    rotate: props.rotate,
+                    scale: props.scale,
+                    zIndex: props.zIndex
                 };
             }
             
@@ -251,10 +312,15 @@ document.addEventListener('DOMContentLoaded', function() {
             newImg.className = 'visual-item';
             newImg.dataset.itemKey = itemKey;
             
+            // 🔥 PERBAIKAN: Terapkan zIndex
+            newImg.style.zIndex = pos.zIndex;
+
             // Posisi awal: di atas layar
             newImg.style.top = '-100px';
             newImg.style.left = `${pos.left}%`;
-            newImg.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(0.8)`;
+            // 🔥 PERBAIKAN: Terapkan scale awal (misal 0.8 * scale)
+            const initialScale = pos.scale * 0.8;
+            newImg.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(${initialScale})`;
             newImg.style.opacity = '0';
             
             globalVisualsContainer.appendChild(newImg);
@@ -263,7 +329,8 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 newImg.style.opacity = '1';
                 newImg.style.top = `${pos.top}%`;
-                newImg.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(1)`;
+                // 🔥 PERBAIKAN: Terapkan scale akhir
+                newImg.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(${pos.scale})`;
             }, 10);
         });
     }
@@ -496,6 +563,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const customerName = document.getElementById('customer-name').value;
         const customerAddress = document.getElementById('customer-address').value;
         const customerWhatsapp = document.getElementById('customer-whatsapp').value;
+        
+        // 🔥 REVISI: Ambil nilai Note
+        const customerNote = document.getElementById('customer-note').value; 
+
         const paymentProofFile = paymentProofInput ? paymentProofInput.files[0] : null; 
         
         // ✅ TAMBAHAN: Validasi address
@@ -526,10 +597,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const finalPrice = orderState.totalCost;
             
             // ✅ TAMBAHAN: Tambahkan address ke orderData
+            // 🔥 REVISI: Tambahkan 'catatan' (note) ke orderData
             const orderData = {
                 nama: customerName, 
                 alamat: customerAddress,
                 whatsapp: customerWhatsapp, 
+                catatan: customerNote, // Ini dia data note barunya
                 pesanan: orderDetailsText,
                 jumlah: 1, 
                 total: finalPrice, 
@@ -583,10 +656,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }, loadingTime); 
     } else {
          console.error("Loading screen or landing page element not found!");
+         // Jika loading screen gagal, langsung tampilkan alur utama
          globalPancakeContainer.classList.remove('hidden');
          globalPancakeContainer.classList.add('animate-drop');
          showContent('fruit-section'); 
     }
-
 });
-
