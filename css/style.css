@@ -37,6 +37,7 @@ body {
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
+    overflow-y: auto; /* Mengizinkan scroll HANYA JIKA konten lebih panjang dari layar */
     position: relative;
 }
 
@@ -276,6 +277,17 @@ body {
      font-weight: 600;
 }
 
+.shipping-note {
+    font-size: 0.85em;
+    font-style: italic;
+    color: #d6336c; /* Samakan dengan warna pink */
+    background-color: var(--bg-primary);
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
 #customer-form input[type="text"], 
 #customer-form input[type="tel"] {
     width: 100%;
@@ -289,8 +301,24 @@ body {
     transition: border-color 0.3s ease;
 }
 
+#customer-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 1em;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease;
+    font-family: 'Poppins', sans-serif; /* Pastikan font sama */
+    resize: vertical; /* Izinkan resize vertikal saja */
+    min-height: 60px;
+}
+
 #customer-form input[type="text"]:focus, 
-#customer-form input[type="tel"]:focus {
+#customer-form input[type="tel"]:focus,
+#customer-form textarea:focus { 
     outline: none;
     border-color: #d6336c;
     box-shadow: 0 0 5px rgba(214, 51, 108, 0.3);
@@ -298,7 +326,7 @@ body {
 
 .qr-image {
     width: 250px;
-    height: 250px;
+    height: auto; /* 🔥 REVISI: Mengubah 250px menjadi auto */
     display: block;
     margin: 15px auto;
 }
@@ -699,14 +727,14 @@ input:checked + .slider:before { transform: translateX(26px); }
 /* 13. GAYA PANCAKE GLOBAL - FIXED 100% ANTI-SCROLL */
 /* ============================================= */
 
-/* 🔥 PANCAKE CONTAINER - IKUT SCROLL (TIDAK FIXED!) */
+/* 櫨 PANCAKE CONTAINER - POSISI DINAIKKAN */
 #global-pancake-container {
     position: absolute;
     width: 350px;
     height: 350px;
     left: 50%;
     margin-left: -175px;
-    bottom: -350px;
+    bottom: -200px;
     z-index: 5;
     pointer-events: none;
     opacity: 1;
@@ -715,7 +743,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 
 /* Animasi naik dari bawah */
 #global-pancake-container.animate-drop {
-    bottom: 0;
+    bottom: 100px;
 }
 
 /* Sembunyikan pancake */
@@ -766,8 +794,9 @@ input:checked + .slider:before { transform: translateX(26px); }
     width: 100%;
     max-width: 1000px;
     margin: 40px auto;
-    padding-bottom: 450px;
+    padding-bottom: 100px;
     min-height: 100vh;
+    overflow: hidden;
 }
 
 /* Layout khusus untuk finish-summary-section */
@@ -779,11 +808,11 @@ input:checked + .slider:before { transform: translateX(26px); }
 }
 
 
-/* 🔥🔥 PERBAIKAN: HAPUS SEMUA ATURAN CSS LAMA UNTUK POSISI PANCAKE DI FINISH */
+/* 櫨櫨 PERBAIKAN: HAPUS SEMUA ATURAN CSS LAMA UNTUK POSISI PANCAKE DI FINISH */
 /* Aturan '#finish-summary-section #global-pancake-container' dihapus */
 
 
-/* 🔥🔥 PERBAIKAN: Atur Jarak Baru untuk layout finish */
+/* 櫨櫨 PERBAIKAN: Atur Jarak Baru untuk layout finish */
 #finish-summary-section .section-title-text {
     margin-bottom: 10px; /* Jarak judul ke sub-judul */
 }
@@ -844,7 +873,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 .customization-section.reveal > .section-subtitle-text,
 .customization-section.reveal > .extra-info { transition-delay: 0.2s; }
 
-/* 🔥 PERBAIKAN: Tambahkan delay untuk "rumah" pancake */
+/* 櫨 PERBAIKAN: Tambahkan delay untuk "rumah" pancake */
 .customization-section.reveal > #finish-pancake-goes-here { transition-delay: 0.3s; }
 
 .customization-section.reveal > .choice-layout-grid,
@@ -858,17 +887,22 @@ input:checked + .slider:before { transform: translateX(26px); }
         width: 280px;
         height: 280px;
         margin-left: -140px;
-        bottom: -280px;
+        bottom: -150px;
     }
     
-    /* 🔥 PERBAIKAN: Atur ukuran pancake di "rumah" baru pada mobile */
+    #global-pancake-container.animate-drop {
+        bottom: 80px;
+    }
+    
+    /* 櫨 PERBAIKAN: Atur ukuran pancake di "rumah" baru pada mobile */
     #finish-pancake-goes-here > #global-pancake-container {
         width: 250px;
         height: 250px;
     }
     
     .customization-section {
-        padding-bottom: 350px;
+        padding-bottom: 80px;
+        overflow: hidden;
     }
     
     #finish-summary-section {
